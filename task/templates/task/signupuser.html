@@ -17,16 +17,16 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp">
+                    <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp" required>
                     <small id="usernameHelp" class="form-text text-muted">Your username must be unique. We'll let you know if someone has taken it already.</small>
                 </div>
                 <div class="form-group">
                     <label for="password1">Password</label>
-                    <input type="password" name="password1" class="form-control" id="password1">
+                    <input type="password" name="password1" class="form-control" id="password1" required>
                 </div>
                 <div class="form-group">
                     <label for="password2">Confirm Password</label>
-                    <input type="password" name="password2" class="form-control" id="password2">
+                    <input type="password" name="password2" class="form-control" id="password2" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form>
