@@ -2,9 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 # Create your views here.
+
+
+def home(request):
+    return render(request, 'task/home.html')
 
 
 def register(request):
@@ -24,6 +28,12 @@ def register(request):
         else:
             # Tell the user the passwords didn't match
             return render(request, 'task/register.html', {'form': UserCreationForm(), 'error': 'Passwords did not match'})
+
+
+def logoutuser(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('home')
 
 
 def currenttasks(request):
