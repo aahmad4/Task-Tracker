@@ -27,7 +27,7 @@ $ git clone https://github.com/aahmad4/Task-Tracker
 Use the package manager [pip](https://pypi.org/project/pip/) to install the required packages.
 
 ```sh
-$ pip install django
+$ pip install -r requirements.txt
 ```
 
 #### Usage
