@@ -21,7 +21,8 @@ urlpatterns = [
     path('aliadmin/', admin.site.urls),
 
     # Auth
-    path('register/', views.register, name='register'),
+    path('signup/', views.signupuser, name='signupuser'),
+    path('login/', views.loginuser, name='loginuser'),
     path('logout/', views.logoutuser, name='logoutuser'),
 
     # Tasks
