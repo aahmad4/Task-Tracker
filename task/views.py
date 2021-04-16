@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
+from .forms import TaskForm
+from .models import Task
 
 # Create your views here.
 
@@ -49,5 +51,20 @@ def logoutuser(request):
         return redirect('home')
 
 
+def createtask(request):
+    if request.method == 'GET':
+        return render(request, 'task/createtask.html', {'form': TaskForm()})
+    elif request.method == 'POST':
+        try:
+            form = TaskForm(request.POST)
+            newTask = form.save(commit=False)
+            newTask.user = request.user
+            newTask.save()
+            return redirect('currenttasks')
+        except ValueError:
+            return render(request, 'task/createtask.html', {'form': TaskForm(), 'error': 'Bad data passed in. Try again.'})
+
+
 def currenttasks(request):
-    return render(request, 'task/currenttasks.html')
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
+    return render(request, 'task/currenttasks.html', {'tasks': tasks})

@@ -27,5 +27,6 @@ urlpatterns = [
 
     # Tasks
     path('', views.home, name='home'),
+    path('create/', views.createtask, name='createtask'),
     path('current/', views.currenttasks, name='currenttasks'),
 ]

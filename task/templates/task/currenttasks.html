@@ -1,1 +1,12 @@
-{% extends 'task/base.html' %} {% block content %} current {% endblock %}
+{% extends 'task/base.html' %} {% block content %} current
+
+<ul>
+  {% for task in tasks %}
+  <li>
+    {% if task.important %}
+    <strong> {% endif %} {{ task.title }} </strong> {% if task.memo %} - {{ task.memo }} {% endif%}
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
