@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from .forms import TaskForm
 from .models import Task
+from django.utils import timezone
 
 # Create your views here.
 
@@ -68,3 +69,32 @@ def createtask(request):
 def currenttasks(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
     return render(request, 'task/currenttasks.html', {'tasks': tasks})
+
+
+def viewtask(request, task_pk):
+    task = get_object_or_404(Task, pk=task_pk, user=request.user)
+    if request.method == 'GET':
+        form = TaskForm(instance=task)
+        return render(request, 'task/viewtask.html', {'task': task, 'form': form})
+    elif request.method == 'POST':
+        try:
+            form = TaskForm(request.POST, instance=task)
+            form.save()
+            return redirect('currenttasks')
+        except ValueError:
+            return render(request, 'task/viewtask.html', {'task': task, 'form': form, 'error': 'Bad data passed in. Try again.'})
+
+
+def completetask(request, task_pk):
+    task = get_object_or_404(Task, pk=task_pk, user=request.user)
+    if request.method == 'POST':
+        task.datecompleted = timezone.now()
+        task.save()
+        return redirect('currenttasks')
+
+
+def deletetask(request, task_pk):
+    task = get_object_or_404(Task, pk=task_pk, user=request.user)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('currenttasks')

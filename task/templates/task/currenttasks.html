@@ -7,10 +7,12 @@ Current
 <ul>
     {% for task in tasks %}
         <li>
-        {% if task.important %} <strong> {% endif %} 
-        {{ task.title }} 
-        </strong> 
-        {% if task.memo %} - {{ task.memo }} {% endif%}
+            <a href="{% url 'viewtask' task.id %}">
+                {% if task.important %} <strong> {% endif %} 
+                {{ task.title }} 
+                </strong> 
+                {% if task.memo %} - {{ task.memo }} {% endif%} 
+            </a>
         </li>
     {% endfor %}
 </ul>
