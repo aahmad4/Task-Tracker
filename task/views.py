@@ -6,6 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from .forms import TaskForm
 from .models import Task
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -46,12 +47,14 @@ def loginuser(request):
             return redirect('currenttasks')
 
 
+@login_required
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
         return redirect('home')
 
 
+@login_required
 def createtask(request):
     if request.method == 'GET':
         return render(request, 'task/createtask.html', {'form': TaskForm()})
@@ -66,11 +69,20 @@ def createtask(request):
             return render(request, 'task/createtask.html', {'form': TaskForm(), 'error': 'Bad data passed in. Try again.'})
 
 
+@login_required
 def currenttasks(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
     return render(request, 'task/currenttasks.html', {'tasks': tasks})
 
 
+@login_required
+def completedtasks(request):
+    tasks = Task.objects.filter(
+        user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
+    return render(request, 'task/completedtasks.html', {'tasks': tasks})
+
+
+@login_required
 def viewtask(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk, user=request.user)
     if request.method == 'GET':
@@ -85,6 +97,7 @@ def viewtask(request, task_pk):
             return render(request, 'task/viewtask.html', {'task': task, 'form': form, 'error': 'Bad data passed in. Try again.'})
 
 
+@login_required
 def completetask(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk, user=request.user)
     if request.method == 'POST':
@@ -93,6 +106,7 @@ def completetask(request, task_pk):
         return redirect('currenttasks')
 
 
+@login_required
 def deletetask(request, task_pk):
     task = get_object_or_404(Task, pk=task_pk, user=request.user)
     if request.method == 'POST':
