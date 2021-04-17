@@ -44,6 +44,7 @@ $ python manage.py runserver
 - [Django](https://www.djangoproject.com/) - Back-end web framework
 - [SQLite](https://www.sqlite.org/) - Relational database management system
 - [Bootstrap](https://getbootstrap.com/) - Responsive CSS framework
+- [PythonAnywhere](https://www.pythonanywhere.com/) - Web hosting service for Python
 
 ## Contributing
 
